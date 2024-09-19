@@ -1,11 +1,109 @@
 ---
-title: "Hello World"
-publishedAt: "2024-06-18"
-summary: "My first post on my new blog."
+title: "First Steps in Open Source: My Experience with a Successful PR Merge"
+publishedAt: "1 September 2024"
+summary: "My Experience in Open Source"
 ---
 
-Hi there!
+# First Steps in Open Source: My Experience with a Successful PR Merge
+By ***Syed Ali Ul Hasan*** | 01 September 2024
 
-```jsx
-console.log("Hello World");
+### Introduction
+
+Contributing to open source can be a significant milestone for any developer, offering a chance to engage with real-world projects and collaborate with a global community. For me, it has been a journey of growth, learning, and accomplishment. This blog post documents my experience with my first pull request (PR) being successfully merged into an open-source project, outlining the technical challenges encountered, the steps taken to address them, and the process of getting my PR accepted.
+
+___
+
+### The Spark: An Open Source Conference
+
+My journey began when I attended an open-source conference at IIT Kanpur with a few friends. It was here that I realized just how vast and vibrant the open-source community is. The discussions, the people, and the sheer potential intrigued me. Encouraged by a friend, I decided to explore some reputable open-source organizations. One name that stood out was the Palisadoes Foundation, and this is where my story begins.
+
+___
+
+### About the Project
+
+The **Palisadoes Foundation** is a non-profit organization focused on empowering underrepresented communities, particularly in the Caribbean, through technology education and resources. One of its key projects is **Talawa**, an open source project to help community-based organizations such as clubs, neighborhood groups, volunteer associations, non-profits and small religious institutions manage their daily activities. Most user interaction is via a mobile app.
+
+By contributing to the Talawa API, developers support a project that has a real-world impact on community organizations and aligns with the foundation's mission of promoting inclusivity in technology.
+
+___
+
+### The Issue
+
+During the conference, I started looking into the unassigned issues in the Talawa API repository and requested to be assigned to one. A couple of days later, I was assigned my first issue: **Test Run time was too long (#2236)**. The project was using Vitest for testing, and the test execution time was far from optimal.
+
+Initially, the complexity of the task felt overwhelming. I remember staring at the issue description, a mix of excitement and apprehension coursing through me. I was unsure if I could handle it, but I was also excited by the challenge. I decided to dive deep into the codebase, determined to find a solution.
+
+___
+
+### Understanding the Codebase
+
+Familiarizing myself with the codebase was the first hurdle. The project was extensive, and understanding the intricacies of the testing setup took time. I spent hours reading through documentation, exploring the code, and gathering any help I could find online. This phase was critical in building the confidence I needed to tackle the issue.
+
+___
+
+### Implementing the Solution
+
+After gaining a good understanding of the codebase, I identified the key areas that needed modification. The existing setup used the following command to run tests:
+
+```json 
+"test": "vitest run --pool forks --poolOptions.forks.singleFork --coverage"
 ```
+
+This configuration was suboptimal, leading to long test run times. After careful consideration, I proposed changing it to:
+
+```json
+"test": "vitest run --pool=threads --no-file-parallelism --coverage"
+```
+
+This change introduced test parallelism, significantly reducing the CI time. 
+- It reduced the test runtime from **20 minutes** to **under 5 minutes**.
+
+The key to this improvement was the use of thread-based parallelism (`--pool=threads`). This allows multiple tests to run concurrently, utilizing the available CPU cores more efficiently. However, to prevent potential race conditions, I also included the `--no-file-parallelism` flag, ensuring that tests within the same file run sequentially.
+
+___
+
+### Submitting the Pull Request
+
+With the solution in place, I submitted my first pull request: **ci: add parallelism to reduce tests CI time (#2490)**. 
+
+The PR was reviewed promptly, but I was asked to provide videos showing the before and after effects of my changes. This request made me nervous - I hadn't anticipated needing to provide such detailed evidence. However, I understood the importance of demonstrating the impact of my changes clearly.
+
+Additionally, a reviewer pointed out a potential issue: while parallelism could speed up tests, it might also introduce race conditions, making some tests flaky. This feedback was eye-opening, showing me the complexities involved in optimizing test performance.
+
+___
+
+### Challenges and Learnings
+
+Through this process, I learned several important lessons:
+
+- While parallelism can improve performance, it requires careful consideration to avoid issues like race conditions.
+- Tests that depend on the same database information could conflict when run in parallel.
+- The reviewer suggested grouping tests based on thread affinity to mitigate this risk.
+
+I was also asked to raise a new issue to address this concern, which I did: **Group Tests Based on Thread Affinity - Follow-up to Issue #2236 (#2491)**. This marked my first-ever issue raised on GitHub, adding another milestone to my open-source journey.
+
+___
+
+### The Merge
+
+Finally, after addressing the feedback and making the necessary adjustments, my PR was merged. Seeing my contribution accepted into the codebase was immensely satisfying. It validated the effort I had put in and motivated me to continue contributing to open source. I remember the moment I saw the "Merged" status - it felt like a significant achievement, a tangible result of my hard work and learning.
+
+___
+
+### Conclusion
+
+This experience provided valuable insights into the open-source development process. It showed me the importance of careful coding, thorough testing, and clear communication in a collaborative environment. Contributing to an open-source project was a learning opportunity that expanded my understanding of software development practices.
+
+While this was just a small step, it gave me a glimpse into the vast world of open-source development. I look forward to continuing to learn and potentially contribute to more projects in the future.
+
+If you're considering your first steps into open source, here are a few tips based on my experience:
+
+1. Start small: Look for "good first issue" labels in repositories.
+2. Don't be afraid to ask questions: The community is often very supportive of newcomers.
+3. Be patient and persistent: Understanding a new codebase takes time.
+4. Learn from feedback: Code reviews are invaluable learning opportunities.
+5. Document your process: It helps others and solidifies your own understanding.
+
+Remember, every contribution, no matter how small, can be valuable. If you're interested in open source, give it a try – you might be surprised by what you learn.
+
+___
