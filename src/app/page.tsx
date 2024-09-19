@@ -123,7 +123,7 @@ export default function Page() {
                   Check out my latest work
                 </h2>
                 <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                I love to work on exciting projects that test what I've learnt, whilst being exposed to the power and potential of the ever-evolving technologies around us. I'm always looking for better, and more importantly, ethical and accessible ways to solve the common problems we are faced with day-to-day
+                I love to work on exciting projects that test what I have learnt, whilst being exposed to the power and potential of the ever-evolving technologies around us. I'm always looking for better, and more importantly, ethical and accessible ways to solve the common problems we are faced with day-to-day
                 </p>
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function Page() {
                 >
                   with a direct question on twitter
                 </Link>{" "}
-                and I&apos;ll respond whenever I can. I will ignore all
+                and I will respond whenever I can. I will ignore all
                 soliciting.
               </p>
             </div>
