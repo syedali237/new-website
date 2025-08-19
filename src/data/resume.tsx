@@ -10,32 +10,20 @@ export const DATA = {
   description:
     "Engineer. I love building things and helping people.",
   summary:
-    "A curiosity-driven-coder dedicated to crafting efficient and elegant solutions. Continuously learning and adapting to new technologies.",
+    "A curiosity driven coder dedicated to crafting efficient and elegant solutions. Continuously learning and adapting to new technologies.",
   avatarUrl: "/me.png",
   skills: [
-    "React",
-    "Next.js",
-    "Typescript",
-    "Node.js",
-    "Python",
-    "MongoDB",
-    "Firebase",
-    "Postgres",
-    "Docker",
-    "Java",
-    "C++",
-    "TailwindCSS",
-    "React Native",
+    "Java", "Javascript", "Python", "React", "Nodejs", "ExpressJS", "FastAPI", "GraphQL", "Typescript", "MongoDB", "PostgreSQL", "Docker", "Nextjs", "Cypress", "Integration Tests", "AWS", "Postman", "Git/Github", "CI/CD", "Github Actions"
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
-    { href: "#", icon: CodeIcon, label: "Projects" },
-    { href: "#", icon: PencilLine, label: "Notes" },
+    // { href: "#", icon: CodeIcon, label: "Projects" },
+    // { href: "#", icon: PencilLine, label: "Notes" },
   ],
   contact: {
     email: "syedaliulhasan19@gmail.com",
-    tel: "+91-9838794319",
+    // tel: "+91-9838794319",
     social: {
       GitHub: {
         name: "GitHub",
@@ -58,12 +46,12 @@ export const DATA = {
 
         navbar: true,
       },
-      Youtube: {
-        name: "Youtube",
-        url: "https://youtu.be/dQw4w9WgXcQ?si=kMIzv8RRbnHtU59e&t=1",
-        icon: Icons.youtube,
-        navbar: true,
-      },
+      // Youtube: {
+      //   name: "Youtube",
+      //   url: "https://youtu.be/dQw4w9WgXcQ?si=kMIzv8RRbnHtU59e&t=1",
+      //   icon: Icons.youtube,
+      //   navbar: true,
+      // },
       email: {
         name: "Send Email",
         url: "mailto:syedaliulhasan19@gmail.com",
@@ -76,6 +64,30 @@ export const DATA = {
 
   work: [
     {
+      company: "Google Summer Of Code",
+      href: "https://summerofcode.withgoogle.com/programs/2025/projects/dBNdnkCt",
+      badges: [],
+      location: "Remote",
+      title: "Open Source Developer",
+      logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg9U6Bmi1rYLZjOMmaDjeQsjawxdtIo44Fvg&s",
+      start: "May 2025",
+      end: "Present",
+      description:
+        "Enhanced the testing infrastructure across the Talawa ecosystem by introducing a robust, automated, and scalable testing strategy. Implemented End-to-End (E2E) testing for the Talawa Admin and Mobile applications. Implemented AI-integrated unit test automation, improved CI/CD workflows with preventive checks, and a more efficient, maintainable codebase.",
+    },
+    {
+      company: "The Palisadoes Foundation",
+      href: "https://branding360.ae/",
+      badges: [],
+      location: "Remote",
+      title: "Open Source Contributor",
+      logoUrl: "https://summerofcode.withgoogle.com/media/org/the-palisadoes-foundation/d9zsxo0idjsl7kug-360.png",
+      start: "August 2024",
+      end: "February 2025",
+      description:
+        "Improved test execution time by 80% on Talawa-API by migrating from Jest to Vitest and enabling test parallelism. Enhanced Talawa-Admin by building the Event Registrants tab, implementing robust input validation with Regex, and resolving frontend and GraphQL API issues involving MongoDB membership logic. Developed and integrated CI/CD pipelines using GitHub Actions to automate pre-merge checks and streamline development workflows.",
+    },
+    {
       company: "Branding360",
       href: "https://branding360.ae/",
       badges: [],
@@ -85,22 +97,14 @@ export const DATA = {
       start: "October 2023",
       end: "November 2023",
       description:
-        "Collaborated closely with UI designers to transform design concepts into interactive webpages, ensuring optimal user experiences.  Applied responsive design principles for consistent performance and visual appeal across diverse devices.- Collaborated closely with UI designers to transform design concepts into interactive webpages, ensuring optimal user experiences. - Applied responsive design principles for consistent performance and visual appeal across diverse devices.",
-    },      
+        "Collaborated with UI designers and translated Figma designs into responsive, interactive webpages. Built frontends using ReactJS and TailwindCSS for local businesses. Improved user experience and strengthened online presence through performant UI design.",
+    },
   ],
   education: [
     {
-      school: "Buildspace",
-      href: "https://buildspace.so",
-      degree: "s5",
-      logoUrl: "/buildspace.jpg",
-      start: "",
-      end: "2024",
-    },
-    {
       school: "Aligarh Muslim Univeristy",
       href: "https://www.amu.ac.in/",
-      degree: "Bachelor's of Technology (B.Tech) in Mechanical Engg.",
+      degree: "Bachelor of Technology",
       logoUrl: "/amu.png",
       start: "2022",
       end: "2026",
@@ -137,6 +141,23 @@ export const DATA = {
     },
   ],
   hackathons: [
+    {
+      title: "AMUHACKS 4.0",
+      dates: "August 14th - 15th, 2025",
+      location: "Aligarh, India",
+      description:
+        "In an age where every child learns differently, Quizzly gives parents full control to test, track, and train their children at their own pace. Whether it's basic math, science concepts, or general knowledge, Quizzly brings structure, gamification, and AI-driven insights into a child's learning journey.",
+      image:
+        "https://amuhacks-4.devfolio.co/_next/image?url=https%3A%2F%2Fassets.devfolio.co%2Fhackathons%2F01f64b1c994d4db5a30fe86b88ed2b80%2Fassets%2Ffavicon%2F405.png&w=1440&q=75",
+      mlh: "https://s3.amazonaws.com/logged-assets/trust-badge/2019/mlh-trust-badge-2019-white.svg",
+      links: [
+        {
+          title: "Github",
+          icon: <Icons.github className="h-4 w-4" />,
+          href: "https://github.com/rajuljha/Quizzly",
+        },
+      ],
+    },
     {
       title: "OOSC Hackathon, IIT Kanpur",
       dates: "August 25th - 26th, 2024",

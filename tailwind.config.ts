@@ -20,7 +20,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["var(--font-sans)"], // JetBrains Mono is now your default
       },
       colors: {
         border: "hsl(var(--border))",
