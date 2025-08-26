@@ -142,3 +142,18 @@ code[data-line-numbers-max-digits="2"] > [data-line]::before {
 code[data-line-numbers-max-digits="3"] > [data-line]::before {
   width: 3rem;
 }
+
+img[alt="Google Summer Of Code"] { width: 200px; }
+img[alt="Palisadoes Foundation"] { width: 200px; }
+
+/* Target consecutive images */
+img + img {
+  margin-left: 1rem;
+}
+
+/* Or if they're in the same paragraph */
+p img {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 2rem;
+}
