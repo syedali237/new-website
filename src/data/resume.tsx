@@ -63,6 +63,18 @@ export const DATA = {
   },
 
   work: [
+        {
+      company: "EPAM Systems, Inc.",
+      href: "https://www.epam.com/",
+      badges: [],
+      location: "Hyderabad, IN",
+      title: "Software Engineer Intern",
+      logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxPtwQrKDLY0XsdCf2pP1IdyJJjLHAQssXRQ&s",
+      start: "January 2026",
+      end: "Present",
+      description:
+        "",
+    },
     {
       company: "Google Summer Of Code",
       href: "https://summerofcode.withgoogle.com/programs/2025/projects/dBNdnkCt",
@@ -71,7 +83,7 @@ export const DATA = {
       title: "Open Source Developer",
       logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg9U6Bmi1rYLZjOMmaDjeQsjawxdtIo44Fvg&s",
       start: "May 2025",
-      end: "Present",
+      end: "October 2025",
       description:
         "Enhanced the testing infrastructure across the Talawa ecosystem by introducing a robust, automated, and scalable testing strategy. Implemented End-to-End (E2E) testing for the Talawa Admin and Mobile applications. Implemented AI-integrated unit test automation, improved CI/CD workflows with preventive checks, and a more efficient, maintainable codebase.",
     },
