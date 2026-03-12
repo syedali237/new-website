@@ -1,0 +1,323 @@
+---
+title: "GSoC 2025 Final Project Report"
+publishedAt: "2 November 2025"
+summary: "GSoC Final Report"
+---
+
+By ***Syed Ali Ul Hasan***
+
+<img width="1280" height="720" alt="image" src="https://gist.github.com/user-attachments/assets/9e1b7d15-3175-4e45-af7f-c2212a0ee3bb" />
+
+## About The Palisadoes Foundation & Talawa
+
+The Palisadoes Foundation sponsors open-source software projects that help community groups organize their daily activities and improve operational efficiency. The foundation maintains several projects, including SwitchmapNG and Talawa.
+
+Talawa is an open-source platform designed to help community-based organizations manage events, funds, posts, and memberships efficiently. It is available for both mobile and web platforms.
+
+SwitchmapNG generates HTML pages displaying detailed information about a set of Ethernet switches, providing network administrators with a clear view of their network infrastructure.
+
+## Project Outline & Deliverables
+
+My project aimed to enhance the testing strategy across the Talawa repositories by implementing new techniques and automation.
+The main deliverables included:
+- Implementing End-to-End (E2E) testing on the UI codebases i.e. Talawa Admin Web, Talawa Mobile.
+- Enhancing existing code quality checks to detect and prevent poor coding practices.
+- Automating the generation of unit tests using an AI-powered tool.
+
+## Technologies Used
+
+- The web application is built using React, while the mobile application is developed with Flutter.
+- [Cypress.io](https://www.cypress.io/) was used to implement E2E testing for the web application.
+- Flutter's Integration Testing Package was used for mobile app testing.
+- The API is built with GraphQL and PostgreSQL.
+
+## Why E2E Testing was necessary?
+
+Previously, the Talawa codebase relied primarily on unit testing, which ensured that individual components worked correctly. However, it lacked a mechanism to validate how these components interacted as a complete system. This meant that the developer had to rely heavily on manual UI testing to ensure that the application functioned smoothly after updates.
+
+Introducing E2E testing helped bridge this gap by validating complete user flows across the API, Admin, and Mobile applications ensuring that all parts of the system worked together seamlessly before deployment to production.
+
+## Setting up E2E testing using Cypress.io
+
+We chose Cypress.io for implementing end-to-end (E2E) tests on the Talawa Admin web application due to its rich feature set, including its interactive test runner, seamless integration with GitHub Actions, real-time debugging capabilities, and automatic waiting mechanism. 
+
+Cypress provides a developer-friendly environment that makes writing and maintaining UI tests efficient and reliable.
+
+### Implementing the Base Setup 
+---
+The first pull request introduced the base Cypress setup within the Talawa Admin repository.
+
+This included creating a new `cypress/` directory at the project root, structured as follows:
+
+```
+cypress/
+├── e2e/                    # End-to-end test specifications
+│   └── example_spec/       # Related tests
+├── fixtures/               # Test data and mock files
+│   └── users.json         # User test data
+├── pageObjects/           # Page Object Model files
+│   └── auth/              # Authentication page objects
+└── support/               # Support files and custom commands
+    └── commands.ts        # Custom Cypress commands
+```
+
+Additionally, new scripts were added to `the package.json` to support different Cypress execution modes:
+
+```json
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "start-server": "start-server-and-test serve http://localhost:4321",
+    "cy:open": "npm run start-server cypress:open",
+    "cy:run": "npm run start-server cypress:run"
+```
+This setup allowed both interactive and headless test execution.
+
+The PR also introduced `Commitlint` to enforce standardized commit messages across the project.
+
+[PR #3988](https://github.com/PalisadoesFoundation/talawa-admin/pull/3988):  [GSOC] feat: add cypress E2E tests and commitlint
+
+<img width="1280" height="720" alt="image" src="https://gist.github.com/user-attachments/assets/d0065145-7ebc-499d-b02c-f791821764a0" />
+
+### CI: Cypress Tests Workflow using Github Actions
+---
+
+The next step involved integrating Cypress tests into the CI/CD workflow to ensure that every pull request is automatically tested.
+
+Cypress provides an official [Github Action](https://github.com/cypress-io/github-action), which was utilized to run tests directly within the workflow.
+
+This enhancement was introduced in [PR #4060](https://github.com/PalisadoesFoundation/talawa-admin/pull/4060) [GSOC] ci: added cypress tests workflow 
+
+A new **Run-Cypress-Tests** check was introduced in the `pull-request.yml` file.
+The workflow performs the following steps:
+1. Sets up the Talawa API (backend) using the latest develop branch.
+2. Builds and serves the Talawa Admin frontend.
+3. Executes Cypress E2E tests using the Cypress GitHub Action.
+
+The image below shows that this check runs in parallel with the “Test Application” check, ensuring faster CI cycles:
+
+<img width="1418" height="792" alt="image" src="https://gist.github.com/user-attachments/assets/be3f614c-af99-4754-b9ce-af31deadc0b2" />
+
+### Code Coverage Report
+---
+
+The next step was to introduce code coverage reporting for Cypress tests.
+Cypress provides a dedicated npm package, [@cypress/code-coverage](https://www.npmjs.com/package/@cypress/code-coverage?activeTab=dependencies), which was integrated into the project.
+Additionally, vite-istanbul was configured to instrument the application and track test coverage during E2E runs.
+
+This was implemented in [PR #4077](https://github.com/PalisadoesFoundation/talawa-admin/pull/4077), which added a detailed coverage report that helps monitor the effectiveness of test suites and identify untested areas in the codebase.
+
+<img width="1280" height="720" alt="image" src="https://gist.github.com/user-attachments/assets/17d1bb8f-aa19-4564-b883-0283ed2b1420" />
+
+<img width="1280" height="720" alt="image" src="https://gist.github.com/user-attachments/assets/7fba1f61-2ee9-4522-bf35-b1351317f7cd" />
+
+### Pre-Commit Check to Ensure Page Object Model (POM) Consistency
+---
+
+All E2E tests were written following the Page Object Model (POM) pattern encapsulating page interactions within dedicated classes and calling these methods within test files.
+To maintain consistency, a pre-commit script was introduced that validates whether the tests adhere to this structure.
+
+The script scans test files under `cypress/e2e/` and flags any direct use of Cypress commands (like `cy.get()`, `cy.click()`, etc.) instead of using corresponding page object methods.
+
+```javascript
+const forbiddenMethods = [
+  'get', 'contains', 'find', 'children', 'closest',
+  'filter', 'first', 'last', 'next', 'prev', 'siblings',
+  'click', 'dblclick', 'rightclick', 'type', 'select',
+  'check', 'uncheck', 'trigger', 'clear', 'scrollIntoView',
+  'should', 'and', 'within',
+];
+
+const forbiddenPatterns = forbiddenMethods.map(m => `cy.${m}(`);
+
+const files = sync("cypress/e2e/**/*.ts");
+
+let hasError = false;
+
+files.forEach(file => {
+  const content = readFileSync(file, "utf8");
+  forbiddenPatterns.forEach(pattern => {
+    if (content.includes(pattern)) {
+      console.error(`Found "${pattern}" in ${file}`);
+      hasError = true;
+    }
+  });
+});
+
+if (hasError) {
+  console.error("❗ POM violations detected. Please refactor the tests to use page objects.");
+  process.exit(1);
+} else {
+  console.log("✅ All e2e tests follow POM.");
+}
+```
+
+The image below demonstrates how the script reports violations and confirms success when all tests comply with the POM structure:
+
+<img width="1280" height="720" alt="image" src="https://gist.github.com/user-attachments/assets/6c0a095f-b361-453d-aa63-13eff5620281" />
+
+#### At the completion of the GSoC timeline, the E2E Coverage on the Talawa Admin Web was `~60%`.
+```bash
+Statements   : 59.15% ( 2855/4826 )
+Branches     : 45.83% ( 1431/3122 )
+Functions    : 53.94% ( 677/1255 )
+Lines        : 59.03% ( 2526/4279 )
+```
+
+
+## Setting Integration Tests on the Flutter Application
+
+Flutter provides a powerful Integration Testing package that allows developers to test entire app flows, ensuring that different widgets and screens work together as expected. This package was used to set up the integration test suite for the Talawa Mobile application.
+
+A new folder, `integration_test`, was introduced at the root of the project to organize and manage these tests.
+
+Following the same structured approach used in Cypress (Page Object Model), the Flutter integration tests adopt the **Robot Pattern** a clean, maintainable architecture for handling UI interactions.
+
+```
+integration_test/
+├── app_test.dart             # Main entry point for integration tests
+├── robots/
+│   └── login_form_robot.dart # Contains reusable robot class for login flow
+└── helper.dart               # Utility/helper functions used in tests
+```
+
+In this setup, each robot encapsulates the logic required to interact with a specific screen or feature - such as login, logout, or navigation. Keeping the actual test cases concise and readable.
+
+### Test Execution
+---
+
+The integration tests are executed through the main entry file `app_test.dart`.
+
+These tests simulate complete user flows from app launch to login, performing actions, and logging out to ensure that the user experience remains consistent across updates.
+
+Tests can be executed using the following command:
+
+```bash
+flutter test integration_test/app_test.dart
+```
+
+Below is an example test that validates the Admin login and logout flow:
+
+```dart
+void main() {
+  late LoginFormRobot loginFormRobot;
+  late LogoutRobot logoutRobot;
+
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    await dotenv.load(fileName: ".env");
+
+    debugPrint("Environment variables loaded");
+
+    debugPrint("API_URL = ${dotenv.get('API_URL')}");
+  });
+
+  group("E2E Tests : ", () {
+    testWidgets(
+      "For Admin",
+      (WidgetTester tester) async {
+        app.main();
+
+        await tester.pumpAndSettle();
+
+        final graphqlConfig = locator<GraphqlConfig>();
+        graphqlConfig.initializeForTesting(dotenv.get('API_URL'));
+
+        await Future.delayed(const Duration(seconds: 2));
+
+        loginFormRobot = LoginFormRobot(tester);
+        devPrint("-> Login as Admin");
+        await loginFormRobot.loginAdmin();
+        devPrint("✓ Admin logged in successfully");
+        logoutRobot = LogoutRobot(tester);
+        devPrint("-> Logout Admin");
+        await logoutRobot.logout();
+        devPrint("✓ Admin logged out successfully");
+
+        devPrint("✓ Admin test completed successfully");
+      },
+      timeout: const Timeout(Duration(minutes: 5)),
+    );
+  });
+}
+```
+
+#### The Integration Test Coverage at the end of GSoC timeline was `~40%`.
+
+## Other Deliverables & Additions
+
+### Integrating Keploy's PR Agent
+---
+
+[Keploy's PR Agent](https://keploy.io/docs/running-keploy/utg-pr-agent/) was integrated to automate the generation of unit tests. With each pull request, the agent analyzes the code changes and provides a comment suggesting possible unit tests, streamlining the testing workflow and improving overall test coverage.
+
+### Security Testing using OWASP ZAP
+---
+Security testing is crucial to identify potential vulnerabilities early in the development process, ensuring that the application remains safe against common threats like injection attacks, misconfigurations, and insecure dependencies.
+
+Although not part of the original project scope. Integrating [OWASP ZAP](https://github.com/zaproxy/action-full-scan) into the CI helps maintain continuous security validation with every code change
+
+Report after the check is successful:
+
+<img width="1266" height="707" alt="image" src="https://gist.github.com/user-attachments/assets/dcf8eb46-9475-4085-8f76-b0ed07d48f74" />
+
+
+## Relevant PR's made during the GSoC period
+
+- [[GSOC] feat: add cypress E2E tests and commitlint](https://github.com/PalisadoesFoundation/talawa-admin/pull/3988)
+- [fix: failing tests](https://github.com/PalisadoesFoundation/talawa-admin/pull/4056)
+- [[GSOC] ci: added cypress tests workflow](https://github.com/PalisadoesFoundation/talawa-admin/pull/4060)
+- [[GSOC] feat: Added Integration Testing](https://github.com/PalisadoesFoundation/talawa/pull/2873)
+- [[GSOC] feat: added code coverage report for cypress tests](https://github.com/PalisadoesFoundation/talawa-admin/pull/4077)
+- [ci: Added Code Quality Check Dependency for Cypress Tests](https://github.com/PalisadoesFoundation/talawa-admin/pull/4131)
+- [[GSOC] tests: added E2E tests for action items and event functionality](github.com/PalisadoesFoundation/talawa-admin/pull/4193)
+- [[GSOC] feat: added pre-commit check for cypress tests](github.com/PalisadoesFoundation/talawa-admin/pull/4240)
+- [[GSOC] docs: added developer docs & added posts e2e tests](https://github.com/PalisadoesFoundation/talawa-admin/pull/4484)
+- [[GSOC] ci: added OWASP ZAP Security Scan](https://github.com/PalisadoesFoundation/talawa-admin/pull/4522)
+
+## Follow-Up Issues
+
+As development progresses, I am raising several follow-up tasks to further strengthen the testing framework and improve overall coverage.
+
+- Implement E2E tests for Events on User Portal
+- Implement E2E tests for Posts on User Portal
+- Implement E2E tests for Plugins Feature
+- Implement Integration Tests for Events in Mobile
+- Implement Integration Tests for Chat in Mobile
+
+For any further improvements or new issues, I will continue to collaborate and contribute alongside.
+
+## Other Links:
+
+During the period, I have properly documented the project for future contributors & also wrote a small blog during the period:
+- https://docs-admin.talawa.io/docs/developer-resources/e2e-testing
+- https://github.com/PalisadoesFoundation/talawa-admin/blob/main/cypress/README.md
+- https://github.com/PalisadoesFoundation/talawa/blob/develop/docs/docs/docs/flutter-integration-testing.md
+- https://new-website-pi-three.vercel.app/blog/mid-term (Blog Link)
+
+## Acknowledgement
+
+I would like to extend my heartfelt gratitude to my mentors [Kevonia Tomlinson](https://github.com/kevoniat), [Tasneem Koushar](https://github.com/tasneemkoushar) and [Md Noman Khan](https://github.com/noman2002) for generously investing their time and effort in guiding me throughout my Google Summer of Code journey. Their constant support, valuable feedback, and technical insights greatly contributed to the success of my project. I am truly grateful for the patience and encouragement they showed as I learned and grew through this experience.
+
+Finally, I would also like to thank the Palisadoes Foundation community for providing such a collaborative and inspiring environment that made this journey both educational and rewarding.
+
+I look forward to staying connected with the community and continuing to contribute to its open-source initiatives in the future.
+
+Thank you all for making GSoC 2025 such a memorable and transformative experience for me.
+
+## My Learnings
+
+- Regularly committing, rebasing, and merging changes helped me gain a solid understanding of version control and best practices for maintaining clean and collaborative Git histories.
+- This project gave me hands-on experience in implementing End-to-End (E2E) testing for production-ready applications, significantly improving my understanding of automated testing workflows.
+- I gained valuable exposure to CI/CD pipeline development, learning how GitHub Actions and YAML configurations work together to automate testing and deployment processes.
+- Working with Flutter allowed me to strengthen my mobile development skills and learn how to set up and structure integration tests effectively using the Robot Pattern.
+- Writing and refining project documentation made me realize how important clear and detailed documentation is for helping future contributors onboard and collaborate smoothly.
+
+## Plans for Future
+
+- I’ve realized that writing open-source code comes with the responsibility of maintaining it, a responsibility I’m eager to uphold.
+- My next goal is to enhance and expand the integration testing on the mobile application, potentially refining the current testing approach.
+- As the application evolves, I plan to implement advanced security testing practices to ensure it remains reliable, and secure against potential vulnerabilities.
+- In the long run, I aim to stay actively involved in the Palisadoes community, continue contributing to open source, and keep learning new technologies.
+
+~ Syed

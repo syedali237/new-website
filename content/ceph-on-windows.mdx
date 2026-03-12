@@ -1,0 +1,80 @@
+---
+title: "How to run the Ceph Dashboard locally on Windows (WSL & Docker)"
+publishedAt: "12 March 2026"
+summary: "Developer guide to Ceph"
+---
+
+By ***Syed Ali Ul Hasan***
+
+<div style={{display: "flex", justifyContent: "center"}}>
+  <img src="/ceph.png" alt="Ceph" width="200" />
+</div>
+
+[Ceph](https://ceph.io/) is an open-source, software-defined storage solution designed to address the block, file, and object storage needs of modern enterprises. Its highly scalable architecture has made it the new norm for high-growth data lakes and object stores.
+
+I first came across Ceph at an open-source conference and was immediately intrigued by it and wanted to contribute. If you're also looking to contribute, this quick guide covers how to set up the Ceph development environment on a Windows machine.
+
+## Prerequisites
+Before you begin, ensure you have the following installed and configured:
+* **WSL** (Windows Subsystem for Linux) running **Fedora 42**. 
+* [Install Fedora on WSL](https://docs.fedoraproject.org/en-US/cloud/wsl/)
+* **Docker** (and Docker Compose). [Download docker](https://www.docker.com/) 
+* **Storage:** At least **300 GB** of free space on your system.
+
+---
+
+## Step-by-Step Installation
+
+***Note: Make sure to use the WSL terminal***
+
+### 1. Clone the Repositories
+Open your **Fedora WSL terminal** and navigate to your home directory (`cd ~`). First, clone the main Ceph repository. Using the `--depth 1` and `--single-branch` flags will significantly reduce the amount of data transferred:
+
+```bash
+git clone --depth 1 --single-branch https://github.com/ceph/ceph.git
+```
+
+Next, clone the `ceph-dev` repository in the same home directory:
+
+```bash
+git clone https://github.com/rhcs-dashboard/ceph-dev.git
+```
+
+### 2. Configure the Environment
+Navigate into the `ceph-dev` directory and set up your environment variables using the provided template:
+
+```bash
+cd ceph-dev
+cp .env.example .env
+```
+Open the `.env` file in your preferred text editor and modify the `CEPH_REPO_DIR` variable to point to the directory where you cloned the main Ceph repo (e.g., `CEPH_REPO_DIR=/home/<your_username>/ceph`).
+
+### 3. Build and Launch with Docker
+Pull the necessary container images and launch the setup in detached mode:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+### 4. Monitor the Setup
+The initialization will take a few minutes. You can track the progress by checking the logs:
+
+```bash
+docker compose logs -f ceph
+```
+Wait until the console prints: `All done.`
+
+---
+
+## Accessing the Dashboard & Development Server
+
+Once the setup is complete, you can access the running services locally:
+* **Production Dashboard:** `https://127.0.0.1:11000` (Credentials: `admin` / `admin`)
+
+Wait for a few more minutes until the console prints: 
+
+`** Angular Live Development Server is listening on 0.0.0.0:4200 , open your browser at https://localhost:4200/ **.`
+
+**Developing in VS Code:**
+If you are using VS Code, open it within WSL, navigate to your `ceph` folder, and locate the dashboard frontend code at `src/pybind/mgr/dashboard/frontend` to start contributing!
