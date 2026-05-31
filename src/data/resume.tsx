@@ -64,6 +64,18 @@ export const DATA = {
 
   work: [
         {
+      company: "Google Summer Of Code - Ceph",
+      href: "https://summerofcode.withgoogle.com/programs/2026/projects/KvszXOEh",
+      badges: [],
+      location: "Remote",
+      title: "Open Source Developer",
+      logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg9U6Bmi1rYLZjOMmaDjeQsjawxdtIo44Fvg&s",
+      start: "May 2026",
+      end: "Present",
+      description:
+        "",
+    },
+        {
       company: "EPAM Systems, Inc.",
       href: "https://www.epam.com/",
       badges: [],
@@ -71,12 +83,12 @@ export const DATA = {
       title: "Software Engineer Intern",
       logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxPtwQrKDLY0XsdCf2pP1IdyJJjLHAQssXRQ&s",
       start: "January 2026",
-      end: "Present",
+      end: "June 2026",
       description:
         "",
     },
     {
-      company: "Google Summer Of Code",
+      company: "Google Summer Of Code - Palisadoes Foundation",
       href: "https://summerofcode.withgoogle.com/programs/2025/projects/dBNdnkCt",
       badges: [],
       location: "Remote",
