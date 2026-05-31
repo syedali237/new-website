@@ -1,0 +1,50 @@
+---
+title: "Before the Code: My GSoC Community Bonding Journey with Ceph"
+publishedAt: "31 May 2026"
+summary: "A reflection on my Google Summer of Code 2026 community bonding period under Ceph meeting mentors, setting up environments, exploring storage internals, and finding my footing in an incredible open source community."
+---
+By ***Syed Ali Ul Hasan***
+
+
+It's been a while since I last sat down to write. The past few months have been a whirlwind balancing my final semester of college alongside an internship in Hyderabad left me with little time. Yet through all of that, my curiosity and affection for open source never really went away. Whenever I found some time, I was exploring repositories, picking up issues, trying to leave something meaningful behind. Those scattered contributions quietly added up, and this year they led to my selection for **Google Summer of Code 2026** under **Ceph** for the second time.
+
+## How it began
+
+Around February, I spotted the GSoC project list and immediately knew I wanted to contribute to Ceph's Dashboard. I connected with **Afreen**, my project mentor, on LinkedIn introduced myself, expressed my intent and she pointed me to Slack and told me to dig deeper. That nudge set everything in motion.
+
+This year I'll be working on the **Carbonization of the Ceph Dashboard** migrating Bootstrap-based Angular components to IBM's Carbon Design System. It's a meaningful UI modernization effort, and I'm genuinely excited about the intersection of Angular, design systems, and open source infrastructure it touches.
+
+## Setting up and getting selected
+
+Getting the project running locally was the first real challenge. Not having a native Linux machine at the time, I attempted setup on both Windows and macOS before the community helped me get it working smoothly via WSL on Windows. (You can read the full setup walkthrough [here](https://www.syedali.space/blog/ceph-on-windows).) I also raised a few proof-of-work PRs during this phase small but deliberate steps.
+
+The night the GSoC results dropped. Seeing my name on that list was one of those quiet, personal victories you don't quite have words for.
+
+## Meeting the mentors
+
+A couple of days after the results, I had a quick intro call with **Abhishekh** and **Dnyaneshwari**, both of whom have been incredibly approachable and helpful throughout. The next day, I had my first 1:1 with **Afreen** and it turned out to be far more than a project briefing.
+
+We talked about our backgrounds, our paths into software engineering, and my own journey transitioning from Mechanical Engineering into tech. She gave me a clear picture of how we plan to approach the project, and laid out what I needed to learn before diving into the code: get comfortable with the Ceph Dashboard, understand its internals, read through its documentation, and genuinely explore what I was going to be working on.
+
+## Settling into the community bonding period
+
+The first concrete task was setting up a **KCLI environment** for the Ceph Dashboard, I'd only used the Docker-based setup before. With some guidance, I got it running, and the exploration began in earnest.
+
+I started learning how Ceph manages block storage, file systems, and object storage. I dug into what the Ceph Manager does, what Cephadm is, and why it matters. I'm still exploring it's a deep system but I've also started touching the actual codebase, working from a rough plan I drafted for how the first two weeks should look.
+
+Beyond the technical setup, I attended a few of the **Weekly Dashboard Team meetings** introduced myself, and sat quietly observing experienced engineers discuss issues, deliverables. There's something invaluable about watching how a senior team actually operates in practice. I also attended a Git session organized by the team, where I picked up some new commands and best practices I hadn't thought much about before.
+
+## Wrapping up community bonding
+
+Looking back, the community bonding period felt less like onboarding and more like exploration. Every conversation, meeting, document, and setup challenge revealed another layer of a system that powers infrastructure at an incredible scale.
+
+What started with a simple LinkedIn message and a desire to contribute has now evolved into an opportunity to learn from experienced engineers while working on software used around the world. The past few weeks have given me a deeper appreciation for both the technical depth of Ceph and the collaborative culture that sustains it.
+
+Now that the learning phase is giving way to implementation, I'm looking forward to contributing meaningful code, tackling new challenges, and making the most of the summer ahead.
+
+
+Onwards to the coding phase.
+
+---
+
+*Thanks for reading. I'll keep sharing updates as the summer unfolds. Stay tuned.*
